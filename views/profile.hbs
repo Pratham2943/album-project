@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/css/commons/gallery-grid.css">
+    <link rel="stylesheet" href="/css/commons/profile-icon.css">
+</head>
+
+<body>
+	 {{#if isUpdatePass}}
+                {{#if isUpdatePass}}
+                 
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>You have sucessfully changed your password !</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                {{else}}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Sorry Could Not Change Password !</strong>Try again.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+                 {{/if}}
+                
+                {{/if}}
+    <!--Start of NavBar  -->
+    <nav class="navbar  bg-light align-items-center">
+        <div class="col-md-6">
+            <h2>SIB</h2>
+            
+        </div>
+        <div class="col-md-2 offset-md-4">
+            <ul class="nav">
+
+                
+                <li class="nav-item">
+                    <div class="round-circle" data-toggle="collapse" data-target="#collapseExample2">{{initialName}}</div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--End of NavBar  -->
+    <!-- Notification Block By default not visible  will be only when user click on notification link on navbar-->
+   
+    <!-- End Notification Block -->
+
+    <!-- Start Profile Block by default not visible will be visible only when click on profile link-->
+    <div class="collapse" id="collapseExample2">
+        <div class="col-md-3 offset-md-9">
+            <div class="card card-body">
+                <ul class="nav flex-column">
+                       
+                  
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/logout">Sign Out</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!--End Start Profile Block-->
+
+    <!--Start Share Block Modal  -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">CHANGE PASSWORD</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="/changePassword" method="POST">
+                    	<div class="form-group">
+                                 
+                                 <input type="hidden" class="form-control" name="userid" id="userid" value="{{user.emailAddress}}">
+                           </div>
+                    	  <div class="form-group">
+                                 <label for="exampleInputEmail1">Old Password</label>
+                                 <input type="password" class="form-control" name="old_pass" id="exampleInputEmail1" placeholder="Old Password">
+                           </div>
+                           <div class="form-group">
+                                  <label for="exampleInputPassword1">New Password</label>
+                                  <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                  <label for="exampleInputPassword1">Confirm Password</label>
+                                  <input type="password" name="cpassword" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+
+                </div>
+               
+
+
+            </div>
+        </div>
+    </div>
+    <!--End Share Block Modal -->
+    <div class="container-fluid" style="margin-top:5%">
+
+
+
+        <div class="row">
+            <!--Start Side Navigation -->
+            <div class="col-md-2">
+                <ul class="nav flex-column ">
+                     <li class="nav-item">
+                        <p>Welcome {{user.fullName}}</p>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/home">Home</a>
+                    </li>
+                    {{!-- <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">Share Album</a>
+                    </li> --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/getAlbum">Albums</a>
+                    </li>
+                    {{!-- <li class="nav-item">
+                        <a class="nav-link " href="#">Delete</a>
+                    </li> --}}
+                </ul>
+            </div>
+            <!-- End of Side Navigation -->
+
+           
+    
+        
+        <div class="col-md-9 offset-1">
+					<div class="pull-left">
+        
+        <h2>User Information</h2>
+        
+                                        
+      <hr><br>	
+      <label style="font-weight:bold;">Full Name   :- </label>
+      <span>{{user.fullName}}</span><br>
+      <label style="font-weight:bold;">Email ID  :- </label>
+      <span> {{user.emailAddress}}</span>
+             </div>
+             <br><hr>
+             <button data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-primary">CHANGE PASSWORD</button>
+
+
+				</div>
+				
+        </div>
+
+        
+
+      
+
+
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.0/baguetteBox.min.js"></script>
+    <script src="/js/baguetteBoxScript.js"></script>
+</body>
+
+</html>
+		

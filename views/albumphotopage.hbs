@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PhotoGallery</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/css/commons/gallery-grid.css">
+    <link rel="stylesheet" href="/css/commons/profile-icon.css">
+</head>
+
+<body>
+    <!--Start of NavBar  -->
+    <nav class="navbar  bg-light align-items-center">
+        <div class="col-md-6">
+            <h2>SIB</h2>
+
+        </div>
+        <div class="col-md-2 offset-md-4">
+            <ul class="nav">
+                
+                <li class="nav-item">
+                    <div class="round-circle" data-toggle="collapse" data-target="#collapseExample2">{{initialName}}</div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="progress" id="progerss" style="display: none;">
+        <div class="progress-bar" id="progressbar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+            aria-valuemin="0" aria-valuemax="0"></div>
+    </div>
+    <!--End of NavBar  -->
+    <!-- Notification Block By default not visible  will be only when user click on notification link on navbar-->
+    
+    <!-- End Notification Block -->
+
+    <!-- Start Profile Block by default not visible will be visible only when click on profile link-->
+    <div class="collapse" id="collapseExample2">
+        <div class="col-md-3 offset-md-9">
+            <div class="card card-body">
+                <ul class="nav flex-column">
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/logout">Sign Out</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!--End Start Profile Block-->
+
+    <!--Start Share Block Modal  -->
+ 
+    <!--End Share Block Modal -->
+
+    <!-- Start of Upload Photos Modal-->
+    <div class="modal fade" id="uploadPhotosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Upload Photos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="photosUploadForm" action="/uploadPhotos" enctype="multipart/form-data" method="POST">
+
+                        <input type="hidden" name="albumId" id="albumId" value="{{id}}">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" multiple="multiple" id="photoBrowse" name="photos"
+                                    aria-describedby="inputGroupFileAddon04">
+                                <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="uploadButton">Upload</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                {{!-- <div class="modal-footer">
+
+
+                    <a class="btn btn-primary" href="/uploadPhotos" role="button">Upload</a>
+                </div> --}}
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- End of Upload Photos Modal-->
+
+    <div class="container-fluid" style="margin-top:5%">
+        <div class="row offset-md-8 justify-content-around">
+            <button type="button" id="delete" class="btn btn-outline-secondary" style="display:none">Delete</button>
+            <button type="button" id="selectAll" class="btn btn-outline-secondary" style="display:none">Select All</button>
+            <button type="button" id="resetAll" class="btn btn-outline-secondary" style="display:none">Reset All</button>
+            <button type="button" id="editPhotos" class="btn btn-outline-secondary">Edit</button>
+        </div>
+
+        <div class="row">
+            <!--Start Side Navigation -->
+            <div class="col-md-2">
+                <ul class="nav flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/home">Home</a>
+                    </li>
+                    {{!-- <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">Share Album</a>
+                    </li> --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/getAlbum">Albums</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="uploadPhotos" href="#" data-toggle="modal" data-target="#uploadPhotosModal">Upload
+                            Photos</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- End of Side Navigation -->
+
+            <!--Start of Images Thumnails -->
+            <div class="col-md-9">
+
+                <div class="tz-gallery">
+                    <form id="deletePhotoForm" action="/deletePhotos" method="POST">
+                        <div class="row">
+
+
+                            {{#each photosList}}
+                            <figure class="col-md-4 align-checkbox" style="margin-bottom: 0px;">
+                                <a class="lightbox" href="{{path}}" data-size="1600x1067">
+                                    <img alt="picture" src="{{path}}" class="img-fluid">
+                                </a>
+                                <input type="hidden" class="form-check-input" id="exampleCheck1" name="path" value="{{path}}">
+                            </figure>
+
+                            {{/each}}
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--End of Images Thumnails -->
+        </div>
+
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.0/baguetteBox.min.js"></script>
+    <script src="/js/baguetteBoxScript.js"></script>
+    <script src="js/albumphotopage/uploadImage.js"></script>
+    <script src="js/albumphotopage/deletePhotos.js"></script>
+
+</body>
+
+</html>
